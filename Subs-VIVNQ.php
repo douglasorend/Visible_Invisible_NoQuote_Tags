@@ -147,6 +147,7 @@ function VIVNQ_get_params()
 		'karma' => array('optional' => true, 'match' => '(\d+)', 'validate' => 'VIVNQ_Karma'),
 		'replied' => array('optional' => true, 'match' => '(\d+)', 'validate' => 'VIVNQ_Replied'),
 		'warning' => array('optional' => true, 'match' => '(\d+)', 'validate' => 'VIVNQ_Warning'),
+		'subforum' => array('optional' => true, 'match' => '(\d+)', 'validate' => 'VIVNQ_SubForum'),
 	);
 
 	// Add any usable custom fields to the standard parameters:
@@ -380,6 +381,16 @@ function VIVNQ_Warning($data)
 	if (!empty($context['VIVNQ_Test']))
 		$context['VIVNQ_Filter'][] = 'Warning:' . ((int) $data);
 	return ((int) $data) >= $user_info['warning'];
+}
+
+function VIVNQ_SubForum($data)
+{
+	global $forumid;
+	if (empty($data) || !isset($forumid))
+		return false;
+	if (!empty($context['VIVNQ_Test']))
+		$context['VIVNQ_Filter'][] = 'Subforum:' . ((int) $data);
+	return in_array($forumid, explode(',', $data));
 }
 
 /**********************************************************************************
