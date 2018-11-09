@@ -11,23 +11,23 @@
 		<readme parsebbc="true">readme.txt</readme>
 		<code>add_remove_hooks.php</code>
 		<modification>install.xml</modification>
-		<require-file name="Subs-BBCode-IXCNQ.php" destination="$sourcedir" />
+		<require-file name="Subs-BBCode-VIVNQ.php" destination="$sourcedir" />
 	</install>
 	<uninstall for="2.0 - 2.0.99">
 		<code>add_remove_hooks.php</code>
 		<modification reverse="true">install.xml</modification>
-		<remove-file name="$sourcedir/Subs-BBCode-IXCNQ.php" />		
+		<remove-file name="$sourcedir/Subs-BBCode-VIVNQ.php" />		
 	</uninstall>
 
 	<install for="2.1 Beta 1">
 		<readme parsebbc="true">readme.txt</readme>
 		<code>add_remove_hooks.php</code>
 		<modification>install.xml</modification>
-		<require-file name="Subs-BBCode-IXCNQ.php" destination="$sourcedir" />
+		<require-file name="Subs-BBCode-VIVNQ.php" destination="$sourcedir" />
 	</install>
 	<uninstall for="2.1 Beta 1">
 		<code>add_remove_hooks.php</code>
 		<modification reverse="true">install.xml</modification>
-		<remove-file name="$sourcedir/Subs-BBCode-IXCNQ.php" />		
+		<remove-file name="$sourcedir/Subs-BBCode-VIVNQ.php" />		
 	</uninstall>
 </package-info>

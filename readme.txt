@@ -1,5 +1,5 @@
 [hr]
-[center][color=red][size=16pt][b]VISIBLE, INVISIBLE AND NOQUOTE TAGS v1.0[/b][/size][/color]
+[center][color=red][size=16pt][b]VISIBLE, INVISIBLE AND NOQUOTE TAGS v1.0.1[/b][/size][/color]
 [url=http://www.simplemachines.org/community/index.php?action=profile;u=253913][b]By Dougiefresh[/b][/url] -> [url=http://custom.simplemachines.org/mods/index.php?mod=4056]Link to Mod[/url]
 [/center]
 [hr]
@@ -9,25 +9,34 @@ This modification adds the bbcodes that will make content visible or invisible b
 
 The new [b]visible[/b] and [b]invisible[/b] BBCodes take any of the following parameters:
 [quote]
-[b]u={user ID}[,{user_ID}....][/b] => User ID or IDs seperated by commas
-[b]g={group ID}[,{group_ID}....][/b] => Membegroup ID or IDs seperated by commas
+[b]u={user ID}[,{user_ID}....][/b] => User ID(s) seperated by commas
+[b]g={group ID}[,{group_ID}....][/b] => Membegroup ID(s) seperated by commas
+[b]guests={answer}[/b] => Filters by guest status, valid: [b]1[/b], [b]0[/b], [b]true[/b], [b]false[/b], [b]y[/b], [b]yes[/b], [b]n[/b], or [b]no[/b].
+[b]members={answer}[/b] => Filters by member status, valid: [b]1[/b], [b]0[/b], [b]true[/b], [b]false[/b], [b]y[/b], [b]yes[/b], [b]n[/b], or [b]no[/b].
+[b]banned={answer}[/b] => Filters by ban status, valid: [b]1[/b], [b]0[/b], [b]true[/b], [b]false[/b], [b]y[/b], [b]yes[/b], [b]n[/b], or [b]no[/b].
+[b]posts={number of posts}[/b] => Filter by minimum number of posts, valid: positive integer value
+[/quote]
+
+These parameters are also accepted, but the data supplied must be [b]QUOTED[/b] and is treated as a partial regex search value.  For example, [b]username="Doug"[/b] would match [b]dougiefresh[/b], [b]freshdoug[/b], [b]weird_doug[/b] and [b]doug[/b]...
+[quote]
 [b]username={username}[,{username}...][/b] => Username(s) seperated by commas
 [b]name={display name}[,{display name}...][/b] => Display name(s) seperated by commas
 [b]group={membergroup}[,{membergroup}...][/b] => Membergroup name(s) seperated by commas
-[b]guests={anything}[/b] => Filters by guest status, {anything} doesn't matter, but must be present.
-[b]member={anything}[/b] => Filters by member status, {anything} doesn't matter, but must be present.
 [b]lang={language}[,{language}...][/b] => Language(s) seperated by commas
-[b]posts={number of posts}[/b] => Filter by minimum number of posts
 [/quote]
 
 For example, if you wanted to make the portion invisible to user # 1 and membergroup ID # 2, you would use this:
 [quote][nobbc][invisible u=1 g=2]Whatever goes here[/invisible][/nobbc][/quote]
-If you wanted to make it invisible just guests, you would use this:
-[quote][nobbc][invisible guests=n]Whatever goes here[/invisible][/nobbc][/quote]
+If you wanted to make it invisible to just guests, you would use this:
+[quote][nobbc][invisible guests=y]Whatever goes here[/invisible][/nobbc][/quote]
 Likewise, making things visible to only certain groups or people is equally easy.  Just replace [b]invisible[/b] with [b]visible[/b]!
 
 In order to keep people from quoting part (or all) of your post, just surround the unquotable part like this:
 [quote][nobbc][noquote]Whatever goes here[/noquote][/nobbc][/quote]
+
+[color=blue][b][size=12pt][u]To-Do List[/u][/size][/b][/color]
+o Add support for custom fields.... (?)
+o Add support for search values as whole strings instead of partial strings.... :p
 
 [color=blue][b][size=12pt][u]Admin Settings[/u][/size][/b][/color]
 There are no admin settings to this mod.  To disable, you must uninstall this mod.

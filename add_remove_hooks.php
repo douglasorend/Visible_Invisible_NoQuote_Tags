@@ -15,13 +15,11 @@ if (file_exists(dirname(__FILE__) . '/SSI.php') && !defined('SMF'))
 	require_once(dirname(__FILE__) . '/SSI.php');
 elseif (!defined('SMF')) // If we are outside SMF and can't find SSI.php, then throw an error
 	die('<b>Error:</b> Cannot install - please verify you put this file in the same place as SMF\'s SSI.php.');
-if (SMF == 'SSI')
-	db_extend('packages');
 	
 // Define the hooks
 $hook_functions = array(
-	'integrate_pre_include' => '$sourcedir/Subs-BBCode-IXCNQ.php',
-	'integrate_bbc_codes' => 'BBCode_IXCNQ',
+	'integrate_pre_include' => '$sourcedir/Subs-BBCode-VIVNQ.php',
+	'integrate_bbc_codes' => 'BBCode_VIVNQ',
 );
 
 // Adding or removing them?
