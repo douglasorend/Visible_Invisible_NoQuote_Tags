@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!DOCTYPE modification SYSTEM "http://www.simplemachines.org/xml/modification">
+<modification xmlns="http://www.simplemachines.org/xml/modification" xmlns:smf="http://www.simplemachines.org/">
+<id>Dougiefresh:IXCNQ</id>
+<name>Visible, Invisible and NoQuote Tags</name>
+<version>3.5</version>
+
+<file name="$languagedir/index.spanish_latin.php" error="Skip">
+	<operation>
+		<search position="end" />
+		<add><![CDATA[
+$txt['VIVNQ_Filter'] = 'Filtrado por';
+$txt['VIVNQ_Expand'] = 'Filtrar';
+$txt['VIVNQ_Collapse'] = 'Sin filtro';
+]]></add>
+	</operation>
+</file>
+
+<file name="$languagedir/index.spanish_latin-utf8.php" error="Skip">
+	<operation>
+		<search position="end" />
+		<add><![CDATA[
+$txt['VIVNQ_Filter'] = 'Filtrado por';
+$txt['VIVNQ_Expand'] = 'Filtrar';
+$txt['VIVNQ_Collapse'] = 'Sin filtro';
+]]></add>
+	</operation>
+</file>
+</modification>

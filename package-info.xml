@@ -5,25 +5,31 @@
 	<id>Dougiefresh:IXCNQ</id>
 	<name>Visible, Invisible and NoQuote Tags</name>
 	<type>modification</type>
-	<version>3.4</version>
+	<version>3.5</version>
 
 	<install for="2.0 - 2.0.99">
 		<readme parsebbc="true">readme.txt</readme>
 		<code>add_remove_hooks.php</code>
 		<modification>install_20x.xml</modification>
 		<modification>language_english.xml</modification>
+		<modification>language_spanish.xml</modification>
 		<require-file name="Subs-VIVNQ.php" destination="$sourcedir" />
 		<require-file name="Subs-VIVNQ_Admin.php" destination="$sourcedir" />
 		<require-file name="VIVNQ.english.php" destination="$languagedir" />
+		<require-file name="VIVNQ.spanish_latin.php" destination="$languagedir" />
+		<require-file name="VIVNQ.spanish_latin-utf8.php" destination="$languagedir" />
 		<require-file name="BBCode-VIVNQ.css" destination="$themedir/css" />
 	</install>
 	<uninstall for="2.0 - 2.0.99">
 		<code>add_remove_hooks.php</code>
 		<modification reverse="true">install_20x.xml</modification>
 		<modification reverse="true">language_english.xml</modification>
+		<modification reverse="true">language_spanish.xml</modification>
 		<remove-file name="$sourcedir/Subs-VIVNQ.php" />		
 		<remove-file name="$sourcedir/Subs-VIVNQ_Admin.php" />		
 		<remove-file name="$languagedir/VIVNQ.english.php" />		
+		<remove-file name="$languagedir/VIVNQ.spanish_latin.php" />		
+		<remove-file name="$languagedir/VIVNQ.spanish_latin-utf8.php" />		
 		<remove-file name="$themedir/css/BBCode-VIVNQ.css" />
 	</uninstall>
 
@@ -32,18 +38,24 @@
 		<code>add_remove_hooks.php</code>
 		<modification>install_21x.xml</modification>
 		<modification>language_english.xml</modification>
+		<modification>language_spanish.xml</modification>
 		<require-file name="Subs-VIVNQ.php" destination="$sourcedir" />
 		<require-file name="Subs-VIVNQ_Admin.php" destination="$sourcedir" />
 		<require-file name="VIVNQ.english.php" destination="$languagedir" />
+		<require-file name="VIVNQ.spanish_latin.php" destination="$languagedir" />
+		<require-file name="VIVNQ.spanish_latin-utf8.php" destination="$languagedir" />
 		<require-file name="BBCode-VIVNQ.css" destination="$themedir/css" />
 	</install>
 	<uninstall for="2.1 Beta 3">
 		<code>add_remove_hooks.php</code>
 		<modification reverse="true">install_21x.xml</modification>
 		<modification reverse="true">language_english.xml</modification>
+		<modification reverse="true">language_spanish.xml</modification>
 		<remove-file name="$sourcedir/Subs-VIVNQ.php" />		
 		<remove-file name="$sourcedir/Subs-VIVNQ_Admin.php" />		
 		<remove-file name="$languagedir/VIVNQ.english.php" />		
+		<remove-file name="$languagedir/VIVNQ.spanish_latin.php" />		
+		<remove-file name="$languagedir/VIVNQ.spanish_latin-utf8.php" />		
 		<remove-file name="$themedir/css/BBCode-VIVNQ.css" />
 	</uninstall>
 </package-info>
