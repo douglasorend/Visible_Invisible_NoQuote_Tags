@@ -1,3 +1,6 @@
+v3.2 - August 31st, 2017
+o Fixed invalid index error in [b]Subs-VIVNQ.php[/b].
+
 v3.1 - August 26th, 2017
 o Fixed missing global variable in [b]Subs-VIVNQ_Admin.php[/b].
 

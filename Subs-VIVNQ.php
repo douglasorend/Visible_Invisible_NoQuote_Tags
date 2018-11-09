@@ -503,7 +503,7 @@ function VIVNQ_Params(&$message, $pos, &$parameters)
 	$replace_str = $old = '';
 	foreach ($params as $param)
 	{
-		if (strpos($param, '=') === false)
+		if (strpos($param, '=') === false && isset($order[$old]))
 			$order[$old] .= ' ' . $param;
 		else
 			$order[$old = substr($param, 0, strpos($param, '='))] = substr($param, strpos($param, '=') + 1);
