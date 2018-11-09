@@ -1,5 +1,5 @@
 [hr]
-[center][color=red][size=16pt][b]VISIBLE, INVISIBLE AND NOQUOTE TAGS v1.0.1[/b][/size][/color]
+[center][color=red][size=16pt][b]VISIBLE, INVISIBLE AND NOQUOTE TAGS v2.0[/b][/size][/color]
 [url=http://www.simplemachines.org/community/index.php?action=profile;u=253913][b]By Dougiefresh[/b][/url] -> [url=http://custom.simplemachines.org/mods/index.php?mod=4056]Link to Mod[/url]
 [/center]
 [hr]
@@ -11,16 +11,20 @@ The new [b]visible[/b] and [b]invisible[/b] BBCodes take any of the following pa
 [quote]
 [b]u={user ID}[,{user_ID}....][/b] => User ID(s) seperated by commas
 [b]g={group ID}[,{group_ID}....][/b] => Membegroup ID(s) seperated by commas
-[b]guests={answer}[/b] => Filters by guest status, valid: [b]1[/b], [b]0[/b], [b]true[/b], [b]false[/b], [b]y[/b], [b]yes[/b], [b]n[/b], or [b]no[/b].
-[b]members={answer}[/b] => Filters by member status, valid: [b]1[/b], [b]0[/b], [b]true[/b], [b]false[/b], [b]y[/b], [b]yes[/b], [b]n[/b], or [b]no[/b].
-[b]banned={answer}[/b] => Filters by ban status, valid: [b]1[/b], [b]0[/b], [b]true[/b], [b]false[/b], [b]y[/b], [b]yes[/b], [b]n[/b], or [b]no[/b].
-[b]posts={number of posts}[/b] => Filter by minimum number of posts, valid: positive integer value
+[b]min_posts={number of posts}[/b] => Filter by minimum number of posts; valid: positive integer value
+[b]max_posts={number of posts}[/b] => Filter by maximum number of posts; valid: positive integer value
+[b]guests={answer}[/b] => Filters by guest status; valid: [b]1[/b], [b]0[/b], [b]true[/b], [b]false[/b], [b]y[/b], [b]yes[/b], [b]n[/b], or [b]no[/b].
+[b]members={answer}[/b] => Filters by member status; valid: [b]1[/b], [b]0[/b], [b]true[/b], [b]false[/b], [b]y[/b], [b]yes[/b], [b]n[/b], or [b]no[/b].
+[b]banned={answer}[/b] => Filters by ban status; valid: [b]1[/b], [b]0[/b], [b]true[/b], [b]false[/b], [b]y[/b], [b]yes[/b], [b]n[/b], or [b]no[/b].
+[b]karma={minimum karma required}[/b] = Filters by amount of karma received; valid: integer value.
+[b]replied={topic ID}[/b] = Filter by whether member has replied to given topic or current topic if value is 0; valid: topic ID or 0.
+[b]warning={warning level}[/b] = Filter by whether member has maximum warning level; valid: integer value.
 [/quote]
 
 These parameters are also accepted, but the data supplied must be [b]QUOTED[/b] and is treated as a partial regex search value.  For example, [b]username="Doug"[/b] would match [b]dougiefresh[/b], [b]freshdoug[/b], [b]weird_doug[/b] and [b]doug[/b]...
 [quote]
 [b]username={username}[,{username}...][/b] => Username(s) seperated by commas
-[b]name={display name}[,{display name}...][/b] => Display name(s) seperated by commas
+[b]user={display name}[,{display name}...][/b] => Display name(s) seperated by commas
 [b]group={membergroup}[,{membergroup}...][/b] => Membergroup name(s) seperated by commas
 [b]lang={language}[,{language}...][/b] => Language(s) seperated by commas
 [/quote]
@@ -39,10 +43,20 @@ o Add support for custom fields.... (?)
 o Add support for search values as whole strings instead of partial strings.... :p
 
 [color=blue][b][size=12pt][u]Admin Settings[/u][/size][/b][/color]
-There are no admin settings to this mod.  To disable, you must uninstall this mod.
+There are 7 new permissions that one can assign the membergroups:
+o Allow use of the "visible" tag"
+o Quote the contents of "visible" tag
+o Allow use of the "invisible" tag"
+o Quote the contents of "invisible" tag
+o Allow use of the "noquote" tag"
+o Quote the contents of "noquote" tag
+o Toggle filtering of "visible" & "invisible" tag
+
+[color=blue][b][size=12pt][u]Other Notes[/u][/size][/b][/color]
+If you upgrade from [b]v1.x[/b] of this mod to [b]v2.0[/b], this mod will not remove any "visible" or "invisible" tags that already exists within the messages table.  When a user doesn't have permission to use those tags, the tag is removed from the message before committing the message to the database.
 
 [color=blue][b][size=12pt][u]Compatibility Notes[/u][/size][/b][/color]
-This mod was tested on SMF 2.0.10, but should work on SMF 2.1 Beta 1, as well as SMF 2.0 and up.  SMF 1.x is not and will not be supported.
+This mod was tested on SMF 2.0.10, but should work on SMF 2.1 Beta 2, as well as SMF 2.0 and up.  SMF 1.x is not and will not be supported.
 
 [color=blue][b][size=12pt][u]Changelog[/u][/size][/b][/color]
 The changelog has been removed and can be seen at [url=http://www.xptsp.com/board/index.php?topic=515.msg783#msg783]XPtsp.com[/url].

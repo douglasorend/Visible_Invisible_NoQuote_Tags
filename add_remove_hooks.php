@@ -19,6 +19,8 @@ elseif (!defined('SMF')) // If we are outside SMF and can't find SSI.php, then t
 // Define the hooks
 $hook_functions = array(
 	'integrate_pre_include' => '$sourcedir/Subs-BBCode-VIVNQ.php',
+	'integrate_load_theme' => 'BBCode_VIVNQ_LoadTheme',
+	'integrate_load_permissions' => 'BBCode_VIVNQ_Permissions',
 	'integrate_bbc_codes' => 'BBCode_VIVNQ',
 );
 

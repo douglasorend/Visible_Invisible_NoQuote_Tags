@@ -1,0 +1,26 @@
+blockquote.bbc_visible_quote, blockquote.bbc_invisible_quote
+{
+	color: #000;
+	line-height: 1.4em;
+	border-top: 2px solid #99A;
+	border-bottom: 2px solid #99A;
+	margin: 0 0 0 0;
+	overflow: auto;
+}
+blockquote.bbc_visible_quote
+{
+	color: #222;
+	background: #cfc;
+}
+blockquote.bbc_invisible_quote
+{
+	background-color: #fee;
+}
+ul.quickbuttons li.showVIVNQ
+{
+	background: url(../images/expand.gif) no-repeat 0 0;
+}
+ul.quickbuttons li.hideVIVNQ
+{
+	background: url(../images/collapse.gif) no-repeat 0 0;
+}

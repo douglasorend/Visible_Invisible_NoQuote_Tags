@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<!DOCTYPE modification SYSTEM "http://www.simplemachines.org/xml/modification">
+<modification xmlns="http://www.simplemachines.org/xml/modification" xmlns:smf="http://www.simplemachines.org/">
+<id>Dougiefresh:IXCNQ</id>
+<name>Visible, Invisible and NoQuote Tags</name>
+<version>2.0</version>
+
+<file name="$sourcedir/Display.php">
+	<operation>
+		<search position="after"><![CDATA[// If it couldn't load, or the user was a guest.... someday may be done with a guest table.]]></search>
+		<add><![CDATA[// Mark as a test if the member responsible for posting it is viewing it:
+	$context['VIVNQ_Test'] = ($user_info['id'] == $message['id_member']);
+
+	]]></add>
+	</operation>
+</file>
+<file name="$sourcedir/Post.php">
+	<operation>
+		<search position="after"><![CDATA[$row['body'] = preg_replace('~<br ?/?' . '>~i', "\n", $row['body']);]]></search>
+		<add><![CDATA[BBCode_VIVNQ_Remove($row['body']);
+		]]></add>
+	</operation>
+	<operation>
+		<search position="after"><![CDATA[$form_message = preg_replace('~<br ?/?' . '>~i', "\n", $form_message);]]></search>
+		<add><![CDATA[BBCode_VIVNQ_Remove($form_message);
+			]]></add>
+	</operation>
+	<operation>
+		<search position="before"><![CDATA[// Let's see if there's still some content left without the tags.]]></search>
+		<add><![CDATA[
+		$context['VIVNQ_Test'] = true;]]></add>
+	</operation>
+	<operation>
+		<search position="before"><![CDATA[// Do all bulletin board code tags, with or without smileys.]]></search>
+		<add><![CDATA[
+			$context['VIVNQ_Test'] = true;]]></add>
+	</operation>
+	<operation>
+		<search position="after"><![CDATA[// This is an already existing message. Edit it.]]></search>
+		<add><![CDATA[// Filter the message before stuffing it into the database:
+	BBCode_VIVNQ_AllowedTo($msgOptions['body']);
+	
+	]]></add>
+	</operation>
+</file>
+<file name="$sourcedir/Subs.php">
+z	<operation error="ignore">
+		<search position="after"><![CDATA[$orders = permute($preg);]]></search>
+		<add><![CDATA[if (in_array($possible['tag'], array('visible', 'invisible')))
+					$orders = array(BBCode_VIVNQ_Params($message, $pos1, $possible['parameters']) ? $preg : array());
+				else
+					]]></add>
+	</operation>
+</file>
+<file name="$themedir/Display.template.php">
+	<operation>
+		<search position="before"><![CDATA[function template_single_post($message)
+{
+	global $context, $settings, $options, $txt, $scripturl, $modSettings]]></search>
+		<add><![CDATA[, $topic]]></add>
+	</operation>
+	<operation>
+		<search position="after"><![CDATA[if ($message['can_approve'] || $message['can_unapprove'] || $message['can_modify'] || $message['can_remove'] || $context['can_split'] || $context['can_restore_msg'])]]></search>
+		<add><![CDATA[// Can we hide the filtered visible/invisible text?
+		if (!empty($context['VIVNQ_Show']))
+			echo '
+									<li><a href="', $scripturl, '?topic=', $topic, '.msg', $message['id'], (!isset($_REQUEST['filter']) ? ';filter' : ''), '#msg', $message['id'], '"><span class="', (!isset($_REQUEST['filter']) ? 'show' : 'hide'), 'VIVNQ"></span>', (!isset($_REQUEST['filter']) ? $txt['VIVNQ_Collapse'] : $txt['VIVNQ_Expand']), '</a></li>';
+		unset($context['VIVNQ_Show']);
+
+		]]></add>
+	</operation>
+</file>
+</modification>

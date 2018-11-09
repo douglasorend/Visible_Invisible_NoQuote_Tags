@@ -1,0 +1,19 @@
+v2.0 - September 6th, 2015
+o Added "warning" parameter, based on the warning level the user is at.
+o Performance increase due to modification of parse_bbc function to deal with memory issue found.
+o Added "visible" and "invisible" tags without parameters to the mix.
+o Poster, Admin and Moderators can now quote messages without the visible/invisible tags being removed.
+o Poster, Admin and Moderators now have a button on Post Display page to turn filtering on/off.
+o Poster, Admin and Moderators can now see "visible to you" messages with green background with filtering on.
+o Poster, Admin and Moderators can now see "invisible to you" messages with red background with filtering on.
+o Permissions added to control who can use the "visible", "invisible" and "noquote" tags.
+o Permissions added to control who can quote the "visible", "invisible" and "noquote" tags.
+o Permission added to control who can see through the "visible" and "invisible" tag filters.
+o Added permissions not available to Guest membergroup, mostly for security reasons....
+
+v1.0.1 - July 6th, 2015
+o Added "karma" parameter, based on whether user has minimum amount of karma.
+o Added "replied" parameter, based on whether user has replied to specified topic ID or current topic ID.
+
+v1.0 - May 16th, 2015
+o Initial Release of the Mod
