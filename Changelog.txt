@@ -1,3 +1,8 @@
+v3.3 - December 7th, 2017
+o Fixed code fragment causing "Invalid argument supplied for foreach()" errors.
+o Fixed missing global variable causing undefined index errors.
+o Changed some language strings to read "Filter" and "No Filter".
+
 v3.2 - August 31st, 2017
 o Fixed invalid index error in [b]Subs-VIVNQ.php[/b].
 

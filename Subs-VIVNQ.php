@@ -49,7 +49,7 @@ function VIVNQ_Areas(&$admin_areas)
 //=================================================================================
 function VIVNQ_Tags(&$bbc)
 {
-	global $smcFunc, $modSettings;
+	global $smcFunc, $modSettings, $context;
 
 	// Get parameters and populate the contents with the parameter keys:
 	$parameters = VIVNQ_get_params();
@@ -120,6 +120,8 @@ function VIVNQ_Tags(&$bbc)
 
 function VIVNQ_build_replacement($params)
 {
+	if (!is_array($params))
+		$params = array($params);
 	$replacement = $params[0];
 	array_shift($params);
 	foreach ($params as $id => $param)
@@ -489,6 +491,8 @@ function VIVNQ_Remove_Tags(&$message, $tags = array())
 {
 	global $context;
 	$u = $context['utf8'] ? 'u' : '';
+	if (!is_array($tags))
+		$tags = array($tags);
 	foreach ($tags as $tag)
 		$message = preg_replace('#\[' . $tag . '( (.+?)|)\](.+?)\[/' . $tag .'\]#i' . $u, '', $message);
 }
