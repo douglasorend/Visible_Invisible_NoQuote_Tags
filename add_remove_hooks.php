@@ -23,7 +23,6 @@ $hook_functions = array(
 	'integrate_load_permissions' => 'VIVNQ_Permissions',
 	'integrate_bbc_codes' => 'VIVNQ_Tags',
 // SMF 2.x Admin hooks:
-	'integrate_admin_include' => '$sourcedir/Subs-VIVNQ_Admin.php',
 	'integrate_admin_areas' => 'VIVNQ_Areas',
 );
 

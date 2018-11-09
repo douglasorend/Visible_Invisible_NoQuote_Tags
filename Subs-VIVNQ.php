@@ -17,11 +17,31 @@ if (!defined('SMF'))
 //=================================================================================
 function VIVNQ_LoadTheme()
 {
-	global $context, $settings, $modSettings;
+	global $context, $settings, $user_info;
 
-	// Load the VIVNQ language file & CSS file:
-	$context['html_headers'] .= '
+	// Load the VIVNQ CSS file only if required:
+	$context['VIVNQ_Show'] = allowedTo('VIVNQ_toggle_filter') || !empty($user_info['is_mod']);
+	if ($context['VIVNQ_Show'])
+		$context['html_headers'] .= '
 	<link rel="stylesheet" type="text/css" href="' . $settings['default_theme_url'] . '/css/BBCode-VIVNQ.css" />';
+}
+
+function VIVNQ_Areas(&$admin_areas)
+{
+	global $txt;
+	loadLanguage('VIVNQ');
+	$admin_areas['config']['areas']['vivnq'] = array(
+		'label' => $txt['VIVNQ_Settings'],
+		'file' => 'Subs-VIVNQ_Admin.php',
+		'function' => 'VIVNQ_Settings',
+		'icon' => 'modifications.gif',
+		'subsections' => array(
+			'shortcuts' => array($txt['VIVNQ_shortcuts']),
+			'newtag' => array($txt['VIVNQ_new_tag']),
+			'permissions' => array($txt['membergroups_permissions']),
+		),
+		//'enabled' => false,
+	);
 }
 
 //=================================================================================
@@ -29,42 +49,11 @@ function VIVNQ_LoadTheme()
 //=================================================================================
 function VIVNQ_Tags(&$bbc)
 {
-	global $smcFunc;
+	global $smcFunc, $modSettings;
 
-	// Let's get the parameters for the "visible" and "invisible" bbcodes:
-	$parameters = array(
-		'u' => array('optional' => true, 'match' => '(\d+|((\d+),?)+)', 'validate' => 'VIVNQ_UserID'),
-		'g' => array('optional' => true, 'match' => '(\d+|((\d+),?)+)', 'validate' => 'VIVNQ_GroupID'),
-		'min_posts' => array('optional' => true, 'match' => '(\d+)', 'validate' => 'VIVNQ_MinPosts'),
-		'max_posts' => array('optional' => true, 'match' => '(\d+)', 'validate' => 'VIVNQ_MaxPosts'),
-		'guests' => array('optional' => true, 'match' => '(y|yes|true|1|n|no|false|0)', 'validate' => 'VIVNQ_Guests'),
-		'members' => array('optional' => true, 'match' => '(y|yes|true|1|n|no|false|0)', 'validate' => 'VIVNQ_Members'),
-		'banned' => array('optional' => true, 'match' => '(y|yes|true|1|n|no|false|0)', 'validate' => 'VIVNQ_Banned'),
-		'username' => array('optional' => true, 'quoted' => true, 'validate' => 'VIVNQ_Username'),
-		'user' => array('optional' => true, 'quoted' => true, 'validate' => 'VIVNQ_User'),
-		'group' => array('optional' => true, 'quoted' => true, 'validate' => 'VIVNQ_Group'),
-		'lang' => array('optional' => true, 'quoted' => true, 'validate' => 'VIVNQ_Lang'),
-		'karma' => array('optional' => true, 'match' => '(\d+)', 'validate' => 'VIVNQ_Karma'),
-		'replied' => array('optional' => true, 'match' => '(\d+)', 'validate' => 'VIVNQ_Replied'),
-		'warning' => array('optional' => true, 'match' => '(\d+)', 'validate' => 'VIVNQ_Warning'),
-	);
-
-	// Add any usable custom fields to the standard parameters:
-	call_integration_hook('integrate_vivnq_params', array(&$parameters));
-
-	// Populate the content keys so that the parser includes the relevant info:
+	// Get parameters and populate the contents with the parameter keys:
+	$parameters = VIVNQ_get_params();
 	$keys = '{' . implode('}|{', array_keys($parameters)) . '}';
-
-	// Unserialize the bbcode translation setting into an array:
-	$bbcodes = array();
-	$unserialize = function_exists('safe_serialize') ? 'safe_unserialize' : 'unserialize';
-	if (!empty($modSettings['VIVNQ_shortcuts']))
-	{
-		if (!is_array($modSettings['VIVNQ_shortcuts']))
-			$bbcodes = $unserialize($modSettings['VIVNQ_shortcuts']);
-		elseif (is_array($modSettings['VIVNQ_shortcuts']))
-			$bbcodes = $modSettings['VIVNQ_shortcuts'];
-	}
 
 	// Define "visible", "invisible", "else", "noquote" bbcodes:
 	$bbc[] = array(
@@ -103,25 +92,66 @@ function VIVNQ_Tags(&$bbc)
 		'tag' => 'else',
 		'type' => 'closed',
 		'content' => '',
-		'require_parents' => array('invisible', 'visible'),
+		'require_parents' => array('visible', 'invisible'),
 	);
 
+	// Unserialize the bbcode translation setting into an array:
+	$bbcodes = array();
+	$unserialize = function_exists('safe_serialize') ? 'safe_unserialize' : 'unserialize';
+	if (!empty($modSettings['VIVNQ_shortcuts']))
+		$bbcodes = $unserialize($modSettings['VIVNQ_shortcuts']);
+
 	// We need to define our "Shortcut" bbcodes in the array:
-	$context['VIVNQ_disallowed']['visible'][] = 'visible';
-	$context['VIVNQ_disallowed']['invisible'][] = 'invisible';
-	foreach ($bbcodes as $tag => $contents)
+	$context['VIVNQ_visible_tags'] = array('visible');
+	$context['VIVNQ_invisible_tags'] = array('invisible');
+	foreach ($bbcodes as $tag => $params)
 	{
+		// Add the new bbcode to both arrays:
+		$context['VIVNQ_' . $params[0] . '_tags'][] = $tag;
 		$bbc[] = array(
 			'tag' => $tag,
 			'type' => 'unparsed_content',
 			'validate' => 'VIVNQ_Shortcut',
-			'content' => '',
+			'content' => '[' . VIVNQ_build_replacement($params) . ']$1[/' . $params[0] . ']',
 			'disabled' => '$1',
-			'sc_open' => $contents['open'],
-			'sc_close' => $contents['close'],
 		);
-		$context['VIVNQ_disallowed'][$contents['sc_for']][] = $tag;
 	}
+}
+
+function VIVNQ_build_replacement($params)
+{
+	$replacement = $params[0];
+	array_shift($params);
+	foreach ($params as $id => $param)
+		$replacement .= ' ' . $id . '=' . $param;
+	return $replacement;
+}
+
+function VIVNQ_get_params()
+{
+	// Let's get the parameters for the "visible" and "invisible" bbcodes:
+	$parameters = array(
+		'u' => array('optional' => true, 'match' => '(\d+|((\d+),?)+)', 'validate' => 'VIVNQ_UserID'),
+		'g' => array('optional' => true, 'match' => '(\d+|((\d+),?)+)', 'validate' => 'VIVNQ_GroupID'),
+		'min_posts' => array('optional' => true, 'match' => '(\d+)', 'validate' => 'VIVNQ_MinPosts'),
+		'max_posts' => array('optional' => true, 'match' => '(\d+)', 'validate' => 'VIVNQ_MaxPosts'),
+		'guests' => array('optional' => true, 'match' => '(y|yes|true|1|n|no|false|0)', 'validate' => 'VIVNQ_Guests', 'admin' => 'checkbox'),
+		'members' => array('optional' => true, 'match' => '(y|yes|true|1|n|no|false|0)', 'validate' => 'VIVNQ_Members', 'admin' => 'checkbox'),
+		'banned' => array('optional' => true, 'match' => '(y|yes|true|1|n|no|false|0)', 'validate' => 'VIVNQ_Banned', 'admin' => 'checkbox'),
+		'username' => array('optional' => true, 'quoted' => true, 'validate' => 'VIVNQ_Username'),
+		'user' => array('optional' => true, 'quoted' => true, 'validate' => 'VIVNQ_User'),
+		'group' => array('optional' => true, 'quoted' => true, 'validate' => 'VIVNQ_Group', 'admin' => 'membergroup'),
+		'lang' => array('optional' => true, 'quoted' => true, 'validate' => 'VIVNQ_Lang'),
+		'karma' => array('optional' => true, 'match' => '(\d+)', 'validate' => 'VIVNQ_Karma'),
+		'replied' => array('optional' => true, 'match' => '(\d+)', 'validate' => 'VIVNQ_Replied'),
+		'warning' => array('optional' => true, 'match' => '(\d+)', 'validate' => 'VIVNQ_Warning'),
+	);
+
+	// Add any usable custom fields to the standard parameters:
+	call_integration_hook('integrate_vivnq_params', array(&$parameters));
+
+	// Return everything to the caller:
+	return $parameters;
 }
 
 /**********************************************************************************
@@ -355,71 +385,90 @@ function VIVNQ_Warning($data)
 **********************************************************************************/
 function VIVNQ_Shortcut(&$tag, &$data, &$disabled)
 {
-	if (!empty($tag['sc_open']) && !empty($tag['sc_close']))
-		$tag['content'] = parse_bbc($tag['sc_open'] . $data . $tag['sc_close']);
+	// Parse the supplied content (cause we got nothing else to do!)
+	$tag['content'] = parse_bbc(str_replace(']$1[', ']' . $data, $tag['content']) . '[');
 }
 
 function VIVNQ_Visible(&$tag, &$data, &$disabled)
 {
 	global $context, $txt;
 
+	// Strip out any invisible/visible/noquote tags and see if anything is left:
 	VIVNQ_Strip($data);
 	if (empty($data))
 		return ($tag['content'] = '');
+
+	// Did everything match the conditions set forth?
 	$valid = false;
 	$checks = explode('|', $tag['content']);
 	foreach ($checks as $check)
 		$valid = $valid || !empty($check);
+
+	// Do we have to show filtering, by any chance?
 	$before = $after = $tag['content'] = '';
-	$admin = (!empty($context['VIVNQ_Test']) || !empty($user_info['is_admin']) || !empty($user_info['is_mod']));
-	if ($admin && isset($_REQUEST['filter']))
-	{
-		$before = '<div class="quoteheader"></div><blockquote class="' . (!$valid ? 'bbc_invisible_quote' : 'bbc_visible_quote') . '">';
-		$after = '</blockquote><div class="quotefooter"><div class="botslice_quote"></div></div>';
-	}
-	$tmp = explode('[else]', $data, 2);
+	if (($context['VIVNQ_Show'] || !empty($context['VIVNQ_Test'])) && isset($_REQUEST['filter']))
+		VIVNQ_Filter($before, $after, $valid);
+	unset($context['VIVNQ_Filter']);
+
+	// Are we able to use the "else" bbcode?
+	if (empty($disabled['else']))
+		$tmp = explode('[else]', $data, 2);
+	else
+		$tmp = array($data);
+
+	// If conditions match, parse the 1st element:
 	if ($valid)
 		$tag['content'] = $before . parse_bbc($tmp[0]) . $after;
+	// If conditions don't match but we have a usable 2nd element, parse 2nd element:
 	elseif (!$valid && !empty($tmp[1]))
 		$tag['content'] = $before . parse_bbc($tmp[1]) . $after;
-	unset($context['VIVNQ_Filter']);
-	$context['VIVNQ_Show'] = $admin || allowedTo('VIVNQ_toggle_filter');
-	if ($context['VIVNQ_Show'] && empty($context['VIVNQ_loaded']))
-	{
-		$context['VIVNQ_loaded'] = true;
-		loadLanguage('VIVNQ');
-	}
+	// Do we have a filter to output?  If so, then do so:
+	elseif (!empty($before))
+		$tag['content'] = $before . $after;
 }
 
 function VIVNQ_Invisible(&$tag, &$data, &$disabled)
 {
 	global $context, $txt;
 
+	// Strip out any invisible/visible/noquote tags and see if anything is left:
+	VIVNQ_Strip($data);
 	if (empty($data))
 		return ($tag['content'] = '');
+
+	// Did everything match the conditions set forth?
 	$valid = false;
 	$checks = explode('|', $tag['content']);
 	foreach ($checks as $check)
 		$valid = $valid || !empty($check);
+
+	// Do we have to show filtering, by any chance?
 	$before = $after = $tag['content'] = '';
-	$admin = (!empty($context['VIVNQ_Test']) || !empty($user_info['is_admin']) || !empty($user_info['is_mod']));
-	if ($admin && isset($_REQUEST['filter']))
-	{
-		$before = '<div class="quoteheader"></div><blockquote class="' . ($valid ? 'bbc_invisible_quote' : 'bbc_visible_quote') . '">';
-		$after = '</blockquote><div class="quotefooter"><div class="botslice_quote"></div></div>';
-	}
-	$tmp = explode('[else]', $data, 2);
-	if ($valid)
-		$tag['content'] = $before . parse_bbc($tmp[0]) . $after;
-	elseif (!$valid && !empty($tmp[1]))
-		$tag['content'] = $before . parse_bbc($tmp[1]) . $after;
+	if (($context['VIVNQ_Show'] || !empty($context['VIVNQ_Test'])) && isset($_REQUEST['filter']))
+		VIVNQ_Filter($before, $after, !$valid);
 	unset($context['VIVNQ_Filter']);
-	$context['VIVNQ_Show'] = $admin || allowedTo('VIVNQ_toggle_filter');
-	if ($context['VIVNQ_Show'] && empty($context['VIVNQ_loaded']))
-	{
-		$context['VIVNQ_loaded'] = true;
-		loadLanguage('VIVNQ');
-	}
+
+	// Are we able to use the "else" bbcode?
+	if (empty($disabled['else']))
+		$tmp = explode('[else]', $data, 2);
+	else
+		$tmp = array($data);
+
+	// If conditions match, parse the 1st element:
+	if (!$valid)
+		$tag['content'] = $before . parse_bbc($tmp[0]) . $after;
+	// If conditions don't match but we have a usable 2nd element, parse 2nd element:
+	elseif ($valid && !empty($tmp[1]))
+		$tag['content'] = $before . parse_bbc($tmp[1]) . $after;
+	// Do we have a filter to output?  If so, then do so:
+	elseif (!empty($before))
+		$tag['content'] = $before . $after;
+}
+
+function VIVNQ_Filter(&$before, &$after, $valid)
+{
+	$before = '<div class="quoteheader"></div><blockquote class="' . (!$valid ? 'bbc_invisible_quote' : 'bbc_visible_quote') . '">';
+	$after = '</blockquote><div class="quotefooter"><div class="botslice_quote"></div></div>';
 }
 
 /**********************************************************************************
@@ -429,10 +478,10 @@ function VIVNQ_Strip(&$message, $perm = false)
 {
 	global $context;
 	if (!$perm || !allowedTo('VIVNQ_' . $perm . '_visible'))
-		VIVNQ_Remove_Tags($message, $context['VIVNQ_disallowed']['visible']);
+		VIVNQ_Remove_Tags($message, $context['VIVNQ_visible_tags']);
 	if (!$perm || !allowedTo('VIVNQ_' . $perm . '_invisible'))
-		VIVNQ_Remove_Tags($message, $context['VIVNQ_disallowed']['invisible']);
-	if (!$perm || !allowedTo('VIVNQ_' . $perm . '_noquote'))
+		VIVNQ_Remove_Tags($message, $context['VIVNQ_invisible_tags']);
+	if (!empty($perm) && !allowedTo('VIVNQ_' . $perm . '_noquote'))
 		VIVNQ_Remove_Tags($message, array('noquote'));
 }
 
@@ -464,8 +513,9 @@ function VIVNQ_Params(&$message, $pos, &$parameters)
 		$replace_str .= (isset($order[$key]) ? ' ' . $key . '=' . $order[$key] : '');
 		unset($order[$key]);
 	}
-	$message = str_replace($match, $replace_str, $message);
-	return count($order) == 0;
+	if (($test = count($order) == 0))
+		$message = str_replace($match, $replace_str, $message);
+	return $test;
 }
 
 ?>
