@@ -3,7 +3,7 @@
 <modification xmlns="http://www.simplemachines.org/xml/modification" xmlns:smf="http://www.simplemachines.org/">
 <id>Dougiefresh:IXCNQ</id>
 <name>Visible, Invisible and NoQuote Tags</name>
-<version>3.5</version>
+<version>3.6</version>
 
 <file name="$languagedir/index.english.php">
 	<operation>
