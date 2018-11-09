@@ -1,3 +1,6 @@
+v3.1 - August 26th, 2017
+o Fixed missing global variable in [b]Subs-VIVNQ_Admin.php[/b].
+
 v3.0 - August 19th, 2017
 o Added admin area: [b]Admin[/b] -> [b]Configuration[/b] -> [b]VIVNQ Settings[/b].
 o Fixed [b]visible[/b] and [b]invisible[/b] bbcode validation functions.

@@ -43,7 +43,7 @@ function VIVNQ_Permissions(&$permissionGroups, &$permissionList, &$leftPermissio
 //=================================================================================
 function VIVNQ_Settings($return_config = false)
 {
-	global $txt, $modSettings, $scripturl, $context, $options;
+	global $txt, $modSettings, $scripturl, $context, $options, $sourcedir;
 
 	// You have to be able to adminstrate the forum to do this.
 	isAllowedTo('admin_forum');
