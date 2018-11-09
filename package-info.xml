@@ -5,37 +5,45 @@
 	<id>Dougiefresh:IXCNQ</id>
 	<name>Visible, Invisible and NoQuote Tags</name>
 	<type>modification</type>
-	<version>2.0</version>
+	<version>2.1</version>
 
 	<install for="2.0 - 2.0.99">
 		<readme parsebbc="true">readme.txt</readme>
 		<code>add_remove_hooks.php</code>
 		<modification>install_20x.xml</modification>
-		<modification>language_english.xml</modification>
-		<require-file name="Subs-BBCode-VIVNQ.php" destination="$sourcedir" />
+		<require-file name="Subs-VIVNQ.php" destination="$sourcedir" />
+		<require-file name="Subs-VIVNQ_Admin.php" destination="$sourcedir" />
+		<require-file name="VIVNQ.english.php" destination="$languagedir" />
+		<require-file name="VIVNQ.template.php" destination="$themedir" />
 		<require-file name="BBCode-VIVNQ.css" destination="$themedir/css" />
 	</install>
 	<uninstall for="2.0 - 2.0.99">
 		<code>add_remove_hooks.php</code>
 		<modification reverse="true">install_20x.xml</modification>
-		<modification reverse="true">language_english.xml</modification>
-		<remove-file name="$sourcedir/Subs-BBCode-VIVNQ.php" />		
+		<remove-file name="$sourcedir/Subs-VIVNQ.php" />		
+		<remove-file name="$sourcedir/Subs-VIVNQ_Admin.php" />		
+		<remove-file name="$languagedir/VIVNQ.english.php" />		
+		<remove-file name="$themedir/VIVNQ.template.php" />		
 		<remove-file name="$themedir/css/BBCode-VIVNQ.css" />
 	</uninstall>
 
-	<install for="2.1 Beta 1">
+	<install for="2.1 Beta 3">
 		<readme parsebbc="true">readme.txt</readme>
 		<code>add_remove_hooks.php</code>
 		<modification>install_21x.xml</modification>
-		<modification>language_english.xml</modification>
-		<require-file name="Subs-BBCode-VIVNQ.php" destination="$sourcedir" />
+		<require-file name="Subs-VIVNQ.php" destination="$sourcedir" />
+		<require-file name="Subs-VIVNQ_Admin.php" destination="$sourcedir" />
+		<require-file name="VIVNQ.english.php" destination="$languagedir" />
+		<require-file name="VIVNQ.template.php" destination="$themedir" />
 		<require-file name="BBCode-VIVNQ.css" destination="$themedir/css" />
 	</install>
-	<uninstall for="2.1 Beta 1">
+	<uninstall for="2.1 Beta 3">
 		<code>add_remove_hooks.php</code>
 		<modification reverse="true">install_21x.xml</modification>
-		<modification reverse="true">language_english.xml</modification>
-		<remove-file name="$sourcedir/Subs-BBCode-VIVNQ.php" />		
+		<remove-file name="$sourcedir/Subs-VIVNQ.php" />		
+		<remove-file name="$sourcedir/Subs-VIVNQ_Admin.php" />		
+		<remove-file name="$languagedir/VIVNQ.english.php" />		
+		<remove-file name="$themedir/VIVNQ.template.php" />		
 		<remove-file name="$themedir/css/BBCode-VIVNQ.css" />
 	</uninstall>
 </package-info>

@@ -18,10 +18,13 @@ elseif (!defined('SMF')) // If we are outside SMF and can't find SSI.php, then t
 	
 // Define the hooks
 $hook_functions = array(
-	'integrate_pre_include' => '$sourcedir/Subs-BBCode-VIVNQ.php',
-	'integrate_load_theme' => 'BBCode_VIVNQ_LoadTheme',
-	'integrate_load_permissions' => 'BBCode_VIVNQ_Permissions',
-	'integrate_bbc_codes' => 'BBCode_VIVNQ',
+	'integrate_pre_include' => '$sourcedir/Subs-VIVNQ.php',
+	'integrate_load_theme' => 'VIVNQ_LoadTheme',
+	'integrate_load_permissions' => 'VIVNQ_Permissions',
+	'integrate_bbc_codes' => 'VIVNQ_Tags',
+// SMF 2.x Admin hooks:
+	'integrate_admin_include' => '$sourcedir/Subs-VIVNQ_Admin.php',
+	'integrate_admin_areas' => 'VIVNQ_Areas',
 );
 
 // Adding or removing them?

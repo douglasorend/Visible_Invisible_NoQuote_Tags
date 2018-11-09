@@ -3,7 +3,7 @@
 <modification xmlns="http://www.simplemachines.org/xml/modification" xmlns:smf="http://www.simplemachines.org/">
 <id>Dougiefresh:IXCNQ</id>
 <name>Visible, Invisible and NoQuote Tags</name>
-<version>2.0</version>
+<version>2.1</version>
 
 <file name="$sourcedir/Display.php">
 	<operation>
@@ -17,12 +17,12 @@
 <file name="$sourcedir/Post.php">
 	<operation>
 		<search position="after"><![CDATA[$row['body'] = preg_replace('~<br ?/?' . '>~i', "\n", $row['body']);]]></search>
-		<add><![CDATA[BBCode_VIVNQ_Remove($row['body']);
+		<add><![CDATA[VIVNQ_Strip($row['body'], 'quote');
 		]]></add>
 	</operation>
 	<operation>
 		<search position="after"><![CDATA[$form_message = preg_replace('~<br ?/?' . '>~i', "\n", $form_message);]]></search>
-		<add><![CDATA[BBCode_VIVNQ_Remove($form_message);
+		<add><![CDATA[VIVNQ_Strip($form_message, 'quote');
 			]]></add>
 	</operation>
 	<operation>
@@ -38,18 +38,9 @@
 	<operation>
 		<search position="after"><![CDATA[// This is an already existing message. Edit it.]]></search>
 		<add><![CDATA[// Filter the message before stuffing it into the database:
-	BBCode_VIVNQ_AllowedTo($msgOptions['body']);
+	VIVNQ_Strip($msgOptions['body'], 'use');
 	
 	]]></add>
-	</operation>
-</file>
-<file name="$sourcedir/Subs.php">
-z	<operation error="ignore">
-		<search position="after"><![CDATA[$orders = permute($preg);]]></search>
-		<add><![CDATA[if (in_array($possible['tag'], array('visible', 'invisible')))
-					$orders = array(BBCode_VIVNQ_Params($message, $pos1, $possible['parameters']) ? $preg : array());
-				else
-					]]></add>
 	</operation>
 </file>
 <file name="$themedir/Display.template.php">

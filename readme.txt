@@ -1,11 +1,11 @@
 [hr]
-[center][color=red][size=16pt][b]VISIBLE, INVISIBLE AND NOQUOTE TAGS v2.0[/b][/size][/color]
+[center][color=red][size=16pt][b]VISIBLE, INVISIBLE AND NOQUOTE TAGS v2.1[/b][/size][/color]
 [url=http://www.simplemachines.org/community/index.php?action=profile;u=253913][b]By Dougiefresh[/b][/url] -> [url=http://custom.simplemachines.org/mods/index.php?mod=4056]Link to Mod[/url]
 [/center]
 [hr]
 
 [color=blue][b][size=12pt][u]Introduction[/u][/size][/b][/color]
-This modification adds the bbcodes that will make content visible or invisible based on criteria in the parameters of the bbcode, and a bbcode to prevent someone from quoting text within a post.
+This modification adds bbcodes that will make content visible or invisible based on criteria in the parameters of the bbcode, and a bbcode to prevent someone from easily quoting text within a post.
 
 The new [b]visible[/b] and [b]invisible[/b] BBCodes take any of the following parameters:
 [quote]
@@ -35,11 +35,13 @@ If you wanted to make it invisible to just guests, you would use this:
 [quote][nobbc][invisible guests=y]Whatever goes here[/invisible][/nobbc][/quote]
 Likewise, making things visible to only certain groups or people is equally easy.  Just replace [b]invisible[/b] with [b]visible[/b]!
 
-In order to keep people from quoting part (or all) of your post, just surround the unquotable part like this:
+In order to keep people from easily quoting part (or all) of your post, just surround the unquotable part like this:
 [quote][nobbc][noquote]Whatever goes here[/noquote][/nobbc][/quote]
 
+[b]VERSION 2.1[/b] adds the [b][else][/b] bbcode for the [b][nobbc][visible][/nobbc][/b] and [b][nobbc][invisible][/nobbc][/b] tags.  When present and the conditions are false, the part after [b][else][/b] will be displayed instead of nothing.
+
 [color=blue][b][size=12pt][u]To-Do List[/u][/size][/b][/color]
-o Add support for custom fields.... (?)
+o [DONE] Add support for custom fields.... (?)
 o Add support for search values as whole strings instead of partial strings.... :p
 
 [color=blue][b][size=12pt][u]Admin Settings[/u][/size][/b][/color]
@@ -55,14 +57,17 @@ o Toggle filtering of "visible" & "invisible" tag
 [color=blue][b][size=12pt][u]Other Notes[/u][/size][/b][/color]
 If you upgrade from [b]v1.x[/b] of this mod to [b]v2.0[/b], this mod will not remove any "visible" or "invisible" tags that already exists within the messages table.  When a user doesn't have permission to use those tags, the tag is removed from the message before committing the message to the database.
 
+[color=blue][b][size=12pt][u]Related Discussions[/u][/size][/b][/color]
+o [url=https://www.simplemachines.org/community/index.php?topic=555572.msg3937962#msg3937962]Code to keep someone from quoting something in [noquote] tags....[/code]
+
 [color=blue][b][size=12pt][u]Compatibility Notes[/u][/size][/b][/color]
-This mod was tested on SMF 2.0.10, but should work on SMF 2.1 Beta 2, as well as SMF 2.0 and up.  SMF 1.x is not and will not be supported.
+This mod was tested on SMF 2.0.10, but should work on SMF 2.1 Beta 3, as well as SMF 2.0 and up.  SMF 1.x is not and will not be supported.
 
 [color=blue][b][size=12pt][u]Changelog[/u][/size][/b][/color]
 The changelog has been removed and can be seen at [url=http://www.xptsp.com/board/index.php?topic=515.msg783#msg783]XPtsp.com[/url].
 
 [color=blue][b][size=12pt][u]License[/u][/size][/b][/color]
-Copyright (c) 2015, Douglas Orend
+[quote]Copyright (c) 2015 - 2017, Douglas Orend
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -71,4 +76,4 @@ Redistribution and use in source and binary forms, with or without modification,
 
 2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
 
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.[/quote]
